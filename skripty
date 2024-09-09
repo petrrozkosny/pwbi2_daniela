@@ -21,3 +21,22 @@ CALCULATE(
     data[Lokalita] = "RUZYNE")
 
 RETURN varianta1
+
+____________________________________________
+
+19 roky min max srazky = 
+-- podminene formatovani
+VAR _tabulka = 
+
+    ADDCOLUMNS(
+    ALL(data[rok]),
+"rocni srazky",CALCULATE(SUM(data[Srazky])))
+
+VAR _maximum = MAXX(_tabulka,[rocni srazky])
+VAR _minimum = MINX(_tabulka,[rocni srazky])
+VAR srazky_rok = SUM(data[Srazky])
+
+RETURN
+SWITCH(TRUE(),
+srazky_rok = _maximum,"GOLD",
+srazky_rok = _minimum,"GREY")
