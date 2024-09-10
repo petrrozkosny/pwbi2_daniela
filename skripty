@@ -55,3 +55,27 @@ CALCULATE(
     data[rok] = MAX(data[rok]) - 1),
 -- POKUD ISFILTERED() vrátí FALSE()
 BLANK())
+___________________________________________________
+
+
+top lokality = 
+
+VAR _tabulka = 
+ADDCOLUMNS(
+ALL(data[Lokalita])
+,"suma srazek"
+,CALCULATE(SUM(data[Srazky])))
+ 
+VAR _tabulka_rank = 
+ ADDCOLUMNS(
+	_tabulka,
+	"rank",
+	RANKX(_tabulka,[suma srazek]))
+	
+RETURN
+UNION(
+-- funkce spojující tabulky pod sebe
+SELECTCOLUMNS(
+FILTER(_tabulka_rank,[rank] <=3),
+"lokalita",data[Lokalita]),
+ROW("lokalita","Ostatni"))
