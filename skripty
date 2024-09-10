@@ -40,3 +40,18 @@ RETURN
 SWITCH(TRUE(),
 srazky_rok = _maximum,"GOLD",
 srazky_rok = _minimum,"GREY")
+
+
+___________________________________________
+
+__ suma srazek mezirocne = 
+IF(
+    ISFILTERED(data[rok]),
+-- POKUD ISFILTERED() vrátí TRUE()
+SUM(data[Srazky])
+- 
+CALCULATE(
+    SUM(data[Srazky]),
+    data[rok] = MAX(data[rok]) - 1),
+-- POKUD ISFILTERED() vrátí FALSE()
+BLANK())
